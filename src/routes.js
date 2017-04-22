@@ -7,11 +7,10 @@ import App from './components/app';
 import Auth from './components/auth';
 import Dashboard from './components/dashboard';
 
+const Hi = () => <h1>Hi</h1>;
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Auth} />
-    <Route path="dashboard" component={requireAuth(Dashboard)}>
-    //dashboard routes here
-    </Route>
+    <Route path="dashboard" component={requireAuth(Dashboard)} />
   </Route>
 )

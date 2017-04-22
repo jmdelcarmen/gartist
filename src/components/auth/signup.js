@@ -17,7 +17,6 @@ class SignUp extends Component {
   editEmail = () => this.setState({ email: this.email.value });
   editPassword = () => this.setState({ password: this.password.value });
   render() {
-    console.log(this.state);
     return (
       <div className="signup">
         <h1>Create a New Account</h1>
