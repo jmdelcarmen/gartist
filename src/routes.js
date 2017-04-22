@@ -6,10 +6,12 @@ import requireAuth from './components/auth/require_auth';
 import App from './components/app';
 import Auth from './components/auth';
 import Dashboard from './components/dashboard';
+import SetlistForm from './components/create_setlist/setlist_form';
 
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Auth} />
     <Route path="dashboard" component={requireAuth(Dashboard)} />
+    <Route path="/setlists/create" component={SetlistForm} />
   </Route>
 )

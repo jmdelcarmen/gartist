@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const Nav = ({
   logout
@@ -7,8 +8,9 @@ const Nav = ({
     <li
       onClick={logout}
       className="btn btn-danger">Logout</li>
-    <li
-      className="btn btn-primary">Create Setlist</li>
+    <Link
+      to="/setlists/create"
+      className="btn btn-success">Add Setlist</Link>
   </ul>
 );
 
