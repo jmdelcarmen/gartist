@@ -7,7 +7,6 @@ import App from './components/app';
 import Auth from './components/auth';
 import Dashboard from './components/dashboard';
 
-const Hi = () => <h1>Hi</h1>;
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Auth} />
