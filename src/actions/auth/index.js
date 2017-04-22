@@ -29,9 +29,9 @@ export function logoutUser() {
     browserHistory.push('/');
   };
 }
-export function signUpUser(newUser) {
+export function signUpUser(user) {
   return (dispatch, getState) => {
-    axios.post(`${URL}/signup`, newUser)
+    axios.post(`${URL}/signup`, user)
       .then(res => {
         dispatch({ type: AUTH_USER }) //auth user in auth_reducer
         dispatch({ type: SET_USER, user: res.data.user }); //set user data before navigating

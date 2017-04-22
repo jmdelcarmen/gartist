@@ -1,13 +1,17 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 //Components
+import requireAuth from './components/auth/require_auth';
 import App from './components/app';
-import Login from './components/auth/login';
-// import Dashboard from './components/dashboard';
-// <Route path="dashboard" component={Dasboard} />
+import Auth from './components/auth';
+import Dashboard from './components/dashboard';
+
 export default (
   <Route path="/" component={App}>
-    <Route path="login" component={Login} />
+    <IndexRoute component={Auth} />
+    <Route path="dashboard" component={requireAuth(Dashboard)}>
+    //dashboard routes here
+    </Route>
   </Route>
 )
