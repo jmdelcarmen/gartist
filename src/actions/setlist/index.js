@@ -12,7 +12,6 @@ export function fetchSetlist(id) {
       .then(
         ({ data }) => {
           dispatch({ type: FETCH_SETLIST, payload: data });
-          console.log('Fresh setlist ', getState());
         },
         err => {
           console.log(err);
@@ -22,11 +21,11 @@ export function fetchSetlist(id) {
 }
 export function addSongToSetlist(id) {
   return (dispatch, getState) => {
-    axios.get(`${URL}/setlists${id}/songs/create`)
+    console.log(id);
+    axios.get(`${URL}/setlists/${id}/songs/create`)
       .then(
         ({ data }) => {
-          fetchSetlist(id);
-          console.log('Created a new song ', getState());
+          dispatch({ type: FETCH_SETLIST, payload: data });
         },
         err => {
           console.log(err);
@@ -46,17 +45,15 @@ export function saveSetlistSong(updatedSong) {
         ...setlist.songs.slice(index + 1)
       ]
     };
-    console.log('updated setlist', updatedSetlist);
     dispatch({ type: SAVE_SETLIST_SONG, payload: updatedSetlist });
   }
 }
 export function deleteSetlistSong(id, songId) {
   return (dispatch, getState) => {
-    axios.get(`${URL}/setlists/${id}/songs/${songId}`)
+    axios.get(`${URL}/setlists/${id}/songs/${songId}/delete`)
       .then(
         ({ data }) => {
-          dispatch({ type: DELETE_SETLIST_SONG, payload: data });
-          console.log('Deleted a song ',data);
+          dispatch({ type: DELETE_SETLIST_SONG, payload: data })
         },
         err => {
           console.log(err);

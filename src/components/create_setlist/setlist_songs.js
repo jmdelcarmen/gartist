@@ -25,7 +25,7 @@ class SetlistSongs extends Component {
           <div className="form-group">
             <button
               className="btn btn-success"
-              onClick={this.addNewSong}>
+              onClick={this.addSongToSetlist}>
               Add New Song
             </button>
             <br></br>

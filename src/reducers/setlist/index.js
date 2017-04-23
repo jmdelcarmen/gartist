@@ -9,9 +9,9 @@ export default (state = {}, action) => {
     case FETCH_SETLIST:
       return action.payload;
     case SAVE_SETLIST_SONG:
-      return action.payload;
+      return { ...state, songs: action.payload };
     case DELETE_SETLIST_SONG:
-      return action.payload;
+      return { ...state, songs: action.payload };
   }
   return state;
 }
