@@ -3,8 +3,4 @@ import auth from './auth';
 import user from './user';
 import setlist from './setlist';
 
-const rootReducer = combineReducers({
-  auth, user, setlist
-});
-
-export default rootReducer;
+export default combineReducers({ auth, user, setlist });

@@ -7,13 +7,14 @@ class SetlistSongsInputList extends Component {
     super(props);
     this.state = {
       active: false,
+      song: { ...this.props.song }
     }
   }
   saveSong = () => {
     const { song, saveSetlistSong, setlistId } = this.props;
-    // const updatedSong = { ...song, };
-    console.log('hi');
-    saveSetlistSong(setlistid, song._id, updateBody);
+    const updateBody = this.state.song
+    saveSetlistSong(setlistId, song._id, updateBody);
+    this.setState({ active: false });
   }
   deleteSong = () => {
     const { song, deleteSetlistSong, setlistId } = this.props;
@@ -29,10 +30,6 @@ class SetlistSongsInputList extends Component {
           Delete
         </button>
         <button
-          className="btn btn-info">
-          Edit
-        </button>
-        <button
           onClick={this.saveSong}
           className="btn btn-primary">
           Save
@@ -43,16 +40,19 @@ class SetlistSongsInputList extends Component {
   }
   render() {
     return (
-      <div className="form-group">
+      <div className="form-group row">
+        <div className="col-md-8">
         <input
+          value={this.state.song.name}
+          ref={songName => this.songName = songName}
+          onChange={() => this.setState({ song: { name: this.songName.value } })}
           onFocus={() => this.setState({ active: true })}
-          className="form-control col-md-6" />
+          className="form-control"/>
+        </div>
         {this.renderActionButtons()}
       </div>
     );
   }
 }
-const mapStateToProps = state => ({
-  setlistId: state.setlist._id
-});
+const mapStateToProps = state => ({ setlistId: state.setlist._id });
 export default connect(mapStateToProps, actions)(SetlistSongsInputList);

@@ -37,7 +37,5 @@ class SetlistSongs extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  setlist: state.setlist
-});
+const mapStateToProps = state => ({ setlist: state.setlist });
 export default connect(mapStateToProps, actions)(SetlistSongs);
