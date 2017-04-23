@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
-
-
+import { connect } from 'react-redux';
+import actions from '../../actions';
 
 class SetlistSongsInputList extends Component {
   constructor(props) {
@@ -10,12 +9,21 @@ class SetlistSongsInputList extends Component {
       active: false,
     }
   }
+  saveSong = () => {
+    const { song, saveSetlistSong } = this.props;
+    // const updatedSong = { ...song, };
+    saveSetlistSong(song);
+  }
+  deleteSong = () => {
+    const { song, deleteSetlistSong, setlistId } = this.props;
+    deleteSetlistSong(setlistId, song._id);
+  }
   renderActionButtons = () => {
     return this.state.active
     ? (
       <div>
         <button
-          onClick={this.props.saveSong}
+          onClick={this.deleteSong}
           className="btn btn-danger">
           Delete
         </button>
@@ -24,6 +32,7 @@ class SetlistSongsInputList extends Component {
           Edit
         </button>
         <button
+          onClick={this.saveSong}
           className="btn btn-primary">
           Save
         </button>
@@ -42,5 +51,7 @@ class SetlistSongsInputList extends Component {
     );
   }
 }
-
-export default SetlistSongsInputList;
+const mapStateToProps = state => ({
+  setlistId: state.setlist._id
+});
+export default connect(mapStateToProps, actions)(SetlistSongsInputList);

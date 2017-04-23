@@ -11,17 +11,11 @@ class SetlistSongs extends Component {
     const { params: { id }, fetchSetlist } = this.props;
     fetchSetlist(id);
   }
-  deleteSong = (id) => {
-    console.log(id);
-  }
-  saveSong = (child, e) => {
-    console.log(child);
-  }
   render() {
     if (!this.props.setlist.songs) {
       return <div className="text-center">Loading...</div>
     }
-    const { artist, venue, performanceDate } = this.props.setlist;
+    const { artist, venue, performanceDate, songs } = this.props.setlist;
     return (
       <div className="container">
         <div className="col-md-8 col-md-offset-2">
@@ -36,9 +30,7 @@ class SetlistSongs extends Component {
             </button>
             <br></br>
             <SetlistSongsInputList
-              saveSong={this.saveSong}
-              deleteSong={this.deleteSong}
-              songs={this.props.setlist.songs} />
+              songs={songs}/>
           </div>
         </div>
       </div>
