@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import actions from '../../actions';
+import { browserHistory } from 'react-router';
 import moment from 'moment';
+import axios from 'axios';
 
 import DatePicker from 'react-datepicker';
 import StateSelect from '../util_components/state_select';
@@ -10,19 +10,35 @@ import StateSelect from '../util_components/state_select';
 class SetlistForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      performanceDate: moment(),
-      artist: '',
-      venue: {
-        name: '',
-        city: '',
-        usState: '',
-      },
-      songs: [],
+    this.state = this.initialState();
+  }
+  initialState = () => ({
+    performanceDate: moment(),
+    artist: '',
+    venue: {},
+    comment: '',
+    songs: [],
+  });
+  resetState = () => this.setState(this.initialState());
+  createSetlist = () => {
+    const setlist = this.state;
+    const createSetlistOptions = {
+      method: 'POST',
+      url: 'http://localhost:3000/setlists/create',
+      data: setlist,
     };
+    axios(createSetlistOptions)
+      .then(response => {
+        console.log(response.data);
+        this.resetState();
+        browserHistory.push(`/setlists/${response.data.id}`);
+      })
+      .catch(err => {
+        //dispatch error to redux;
+        console.log(err);
+      });
   }
   render() {
-    console.log(this.state);
     return(
       <div className="container">
         <div className="col-md-6">
@@ -38,7 +54,7 @@ class SetlistForm extends Component {
           </div>
           <div className="form-group">
             <h5>Venue</h5>
-            <div className="form-group col-md-8">
+            <div className="form-group col-md-6">
               <label>Name</label>
               <input
                 className="form-control"
@@ -54,10 +70,10 @@ class SetlistForm extends Component {
                 onChange={() => this.setState({ venue: { ...this.state.venue, city: this.city.value } })}
                 ref={city => this.city = city} />
             </div>
-            <div className="form-group col-md-1">
+            <div className="form-group col-md-3">
               <label>State</label>
               <StateSelect
-                onChange={e => this.setState({ venue: { ...this.state.venue, usState: e.target.value } })}/>
+                onChange={e => this.setState({ venue: { ...this.state.venue, state: e.target.value } })}/>
             </div>
           </div>
           <div className="form-group">
@@ -66,11 +82,22 @@ class SetlistForm extends Component {
               selected={this.state.performanceDate}
               onChange={date => this.setState({ performanceDate: date })}/>
           </div>
-
+          <div className="form-group">
+            <h5>Edit Comment</h5>
+            <textarea
+              className="form-control"
+              onChange={() => this.setState({ comment: this.comment.value })}
+              ref={comment => this.comment = comment}/>
+          </div>
+          <button
+            onClick={this.createSetlist}
+            className="btn btn-primary">
+            Create Setlist
+          </button>
         </div>
       </div>
     );
   }
 }
 
-export default connect(null, actions)(SetlistForm);
+export default SetlistForm;

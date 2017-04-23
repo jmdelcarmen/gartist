@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const setlistSchema = new Schema({
   artist: { type: Schema.ObjectId, ref: 'Artist' },
   performanceDate: Date,
+  comment: String,
   venue: {
     name: String,
     city: String,

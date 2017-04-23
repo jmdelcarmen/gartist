@@ -1,12 +1,11 @@
 import React from 'react';
 
 const StateSelect = ({
-  onChange,
-  ref
+  onChange
 }) => (
   <select
-    onChange={onChange}>
-  <option value="">Select A State</option>
+    onChange={onChange}
+    className="form-control">
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
