@@ -19,7 +19,7 @@ const store = createStore(
 persistStore(store);
 if (token) {
   store.dispatch({ type: 'AUTH_USER' });
-  browserHistory.push('/dashboard');
+  // browserHistory.push('/dashboard');
 }
 //App entry point
 render(
