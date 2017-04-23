@@ -10,9 +10,10 @@ class SetlistSongsInputList extends Component {
     }
   }
   saveSong = () => {
-    const { song, saveSetlistSong } = this.props;
+    const { song, saveSetlistSong, setlistId } = this.props;
     // const updatedSong = { ...song, };
-    saveSetlistSong(song);
+    console.log('hi');
+    saveSetlistSong(setlistid, song._id, updateBody);
   }
   deleteSong = () => {
     const { song, deleteSetlistSong, setlistId } = this.props;

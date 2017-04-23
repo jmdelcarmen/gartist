@@ -4,7 +4,7 @@ export default (app) => {
   app.get('/setlists/:id', viewSetlist);
   app.get('/setlists/:id/songs/create', addSetlistSong);
   app.get('/setlists/:id/songs/:songId/delete', deleteSetlistSong);
-  app.post('/songs/:id/save', saveSetlistSong);
+  app.post('/setlists/:id/songs/:songId/save', saveSetlistSong);
   app.post('/setlists/create', createSetlist);
   return app;
 }
@@ -70,10 +70,11 @@ function addSetlistSong(req, res) {
     });
 }
 function saveSetlistSong(req, res) {
-  const { id } = req.params;
-  const updateBody = req.body;
-  Song.findByIdAndUpdate(id, { $set: updateBody }, { new: true })
-    .then(updatedSong => res.send(updatedSong))
+  const { id, songId } = req.params;
+  const { updateBody } = req.body;
+  Song.findByIdAndUpdate(songId, { $set: updateBody }, { new: true })
+    .then(updatedSong => Setlist.findById(id).populate('songs'))
+    .then(setlist => res.send(setlist.songs))
     .catch(err => {
       console.log(err);
       res.send("An error occurred");

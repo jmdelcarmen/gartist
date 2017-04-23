@@ -33,19 +33,22 @@ export function addSongToSetlist(id) {
       );
   }
 }
-export function saveSetlistSong(updatedSong) {
+export function saveSetlistSong(id, songId, updateBody) {
   return (dispatch, getState) => {
-    const { setlist } = getState();
-    const index = setlist.songs.findIndex(song => song._id === updatedSong._id);
-    const updatedSetlist = {
-      ...setlist,
-      songs: [
-        ...setlist.songs.slice(0, index),
-        updatedSong,
-        ...setlist.songs.slice(index + 1)
-      ]
+    const options = {
+      url: `${URL}/setlists/${id}/songs/${songId}/save`,
+      method: 'POST',
+      data: updateBody
     };
-    dispatch({ type: SAVE_SETLIST_SONG, payload: updatedSetlist });
+    axios(options)
+      .then(
+        ({ data })=> {
+        dispatch({ type: SAVE_SETLIST_SONG, payload: data });
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }
 export function deleteSetlistSong(id, songId) {
