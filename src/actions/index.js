@@ -1,7 +1,7 @@
 import * as auth from './auth';
-import * as dashboard from './dashboard';
+import * as setlist from './setlist';
 
 export default {
   ...auth,
-  ...dashboard
+  ...setlist
 };

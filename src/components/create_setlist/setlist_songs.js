@@ -6,31 +6,22 @@ import axios from 'axios';
 import SetlistSongsInputList from './setlist_songs_input_list';
 
 class SetlistSongs extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      setlist: {},
-    };
-  };
-  addNewSong = () => {
-    axios.get(`http://localhost:3000/setlists/${this.props.params.id}/songs/create`)
-      .then(({ data }) => {
-        this.setState({ setlist: { ...this.state.setlist, songs: [ ...this.state.setlist.songs, data ] } });
-      })
-      .catch(err => console.log(err));
-  }
+  addSongToSetlist = () => this.props.addSongToSetlist(this.props.params.id);
   componentWillMount() {
-    axios.get(`http://localhost:3000/setlists/${this.props.params.id}`)
-      .then(({ data }) => this.setState({ setlist: data }))
-      .catch(err => console.log(err));
+    const { params: { id }, fetchSetlist } = this.props;
+    fetchSetlist(id);
   }
-  //shouldComponentUpdate
+  deleteSong = (id) => {
+    console.log(id);
+  }
+  saveSong = (child, e) => {
+    console.log(child);
+  }
   render() {
-    if (!this.state.setlist.songs) {
+    if (!this.props.setlist.songs) {
       return <div className="text-center">Loading...</div>
     }
-    console.log(this.state);
-    const { artist, venue, performanceDate } = this.state.setlist;
+    const { artist, venue, performanceDate } = this.props.setlist;
     return (
       <div className="container">
         <div className="col-md-8 col-md-offset-2">
@@ -44,12 +35,17 @@ class SetlistSongs extends Component {
               Add New Song
             </button>
             <br></br>
-            <SetlistSongsInputList songs={this.state.setlist.songs} />
+            <SetlistSongsInputList
+              saveSong={this.saveSong}
+              deleteSong={this.deleteSong}
+              songs={this.props.setlist.songs} />
           </div>
         </div>
       </div>
     );
   }
 }
-
-export default connect(null, actions)(SetlistSongs);
+const mapStateToProps = state => ({
+  setlist: state.setlist
+});
+export default connect(mapStateToProps, actions)(SetlistSongs);

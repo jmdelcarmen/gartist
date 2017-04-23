@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
+
 
 
 class SetlistSongsInputList extends Component {
@@ -12,9 +14,19 @@ class SetlistSongsInputList extends Component {
     return this.state.active
     ? (
       <div>
-        <button className="btn btn-danger">Delete</button>
-        <button className="btn btn-info">Edit</button>
-        <button className="btn btn-primary">Save</button>
+        <button
+          onClick={this.props.saveSong}
+          className="btn btn-danger">
+          Delete
+        </button>
+        <button
+          className="btn btn-info">
+          Edit
+        </button>
+        <button
+          className="btn btn-primary">
+          Save
+        </button>
       </div>
     )
     : <div></div>;
