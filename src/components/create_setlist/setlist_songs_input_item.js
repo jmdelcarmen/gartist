@@ -20,10 +20,39 @@ class SetlistSongsInputList extends Component {
     const { song, deleteSetlistSong, setlistId } = this.props;
     deleteSetlistSong(setlistId, song._id);
   }
+  renderLyricsTextArea = () => {
+    return this.state.active
+    ? (
+      <div className="col-md-12">
+        <p>Lyrics</p>
+        <textarea
+          ref={lyrics => this.lyrics = lyrics}
+          placeholder="Enter the lyrics to this song"
+          className="form-control"
+          onChange={() => this.setState({ song: { ...this.state.song, lyrics: this.lyrics.value } })}>
+        </textarea>
+      </div>
+    )
+    : <div></div>
+  }
+  renderUnreleasedCheckBox = () => {
+    return this.state.active
+    ? (
+      <div className="col-md-6">
+        <p>This song is unreleased</p>
+        <input
+          type="checkbox"
+          ref={unreleased => this.unreleased = unreleased}
+          onChange={() => this.setState({ song: { ...this.state.song, unreleased: this.unreleased.checked } })}
+          className="form-control"/>
+      </div>
+    )
+    : <div></div>
+  }
   renderActionButtons = () => {
     return this.state.active
     ? (
-      <div>
+      <div className="col-md-6">
         <button
           onClick={this.deleteSong}
           className="btn btn-danger">
@@ -41,15 +70,19 @@ class SetlistSongsInputList extends Component {
   render() {
     return (
       <div className="form-group row">
-        <div className="col-md-8">
+        <div className="col-md-12">
         <input
           value={this.state.song.name}
           ref={songName => this.songName = songName}
-          onChange={() => this.setState({ song: { name: this.songName.value } })}
+          onChange={() => this.setState({ song: { ...this.state.song, name: this.songName.value } })}
           onFocus={() => this.setState({ active: true })}
           className="form-control"/>
         </div>
-        {this.renderActionButtons()}
+        <div className="col-md-12">
+          {this.renderUnreleasedCheckBox()}
+          {this.renderActionButtons()}
+          {this.renderLyricsTextArea()}
+        </div>
       </div>
     );
   }
