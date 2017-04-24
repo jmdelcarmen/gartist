@@ -76,7 +76,7 @@ function addSetlistSong(req, res) {
 }
 function saveSetlistSong(req, res) {
   const { id, songId } = req.params;
-  const { updateBody } = req.body;
+  const updateBody = req.body;
   Song.findByIdAndUpdate(songId, { $set: updateBody }, { new: true })
     .then(updatedSong => Setlist.findById(id).populate('songs'))
     .then(setlist => res.send(setlist.songs))

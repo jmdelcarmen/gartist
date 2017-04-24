@@ -10,7 +10,7 @@ const setlistSchema = new Schema({
     city: String,
     state: String,
   },
-  thumbnail: String,
+  thumbnailUrl: String,
   songs: [{ type: Schema.ObjectId, ref: 'Song' }],
 }, { timestamps: true });
 
