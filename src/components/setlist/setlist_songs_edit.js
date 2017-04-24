@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import axios from 'axios';
 import actions from '../../actions';
 
@@ -9,8 +9,11 @@ import SetlistSongsInputList from './setlist_songs_input_list';
 class SetlistSongsEdit extends Component {
   addSongToSetlist = () => this.props.addSongToSetlist(this.props.params.id);
   componentWillMount() {
-    const { params: { id }, fetchSetlist } = this.props;
+    const { params: { id }, fetchSetlist, setlist, user } = this.props;
     fetchSetlist(id);
+    if (setlist.ownerId !== user._id) {
+      browserHistory.push(`/setlists/${id}/view`);
+    }
   }
   render() {
     if (!this.props.setlist.songs) {
@@ -34,7 +37,7 @@ class SetlistSongsEdit extends Component {
               songs={songs}/>
           </div>
           <Link
-            to="/dashboard"
+            to={`/setlists/${this.props.setlist._id}/view`}
             className="btn btn-primary">
             Save
           </Link>
@@ -43,5 +46,5 @@ class SetlistSongsEdit extends Component {
     );
   }
 }
-const mapStateToProps = state => ({ setlist: state.setlist });
+const mapStateToProps = state => ({ setlist: state.setlist, user: state.user });
 export default connect(mapStateToProps, actions)(SetlistSongsEdit);

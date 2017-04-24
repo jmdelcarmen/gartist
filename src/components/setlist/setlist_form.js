@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -13,6 +14,8 @@ class SetlistForm extends Component {
     this.state = this.initialState();
   }
   initialState = () => ({
+    ownerId: '',
+    name: '',
     performanceDate: moment(),
     venue: {},
     songs: [],
@@ -39,6 +42,11 @@ class SetlistForm extends Component {
         console.log(err);
       });
   }
+  componentWillUpdate(nextProps, nextState) {
+    if (!nextState.ownerId) {
+      this.setState({ ownerId: nextProps.user._id });
+    }
+  }
   render() {
     return(
       <div className="container">
@@ -46,6 +54,15 @@ class SetlistForm extends Component {
           <div className="col-md-6">
             <h1>Add Setlist</h1>
             <hr></hr>
+            <div className="form-group">
+              <h5>Setlist Name</h5>
+              <input
+                required
+                className="form-control"
+                type="text"
+                onChange={() => this.setState({ name: this.name.value })}
+                ref={name => this.name = name} />
+            </div>
             <div className="form-group">
               <h5>Artist</h5>
               <input
@@ -113,5 +130,5 @@ class SetlistForm extends Component {
     );
   }
 }
-
-export default SetlistForm;
+const mapStateToProps = state => ({ user: state.user });
+export default connect(mapStateToProps, null)(SetlistForm);

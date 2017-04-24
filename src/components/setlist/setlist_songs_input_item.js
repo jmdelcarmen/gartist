@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import actions from '../../actions';
 
 class SetlistSongsInputList extends Component {
@@ -15,6 +16,7 @@ class SetlistSongsInputList extends Component {
     const updateBody = this.state.song
     saveSetlistSong(setlistId, song._id, updateBody);
     this.setState({ active: false });
+    browserHistory.push(`/setlists/${setlistId}/view`);
   }
   deleteSong = () => {
     const { song, deleteSetlistSong, setlistId } = this.props;
