@@ -4,14 +4,17 @@ import { Link } from 'react-router';
 const Nav = ({
   logout
 }) => (
-  <ul className="flex-row">
-    <li
-      onClick={logout}
-      className="btn btn-danger">Logout</li>
+  <div className="main-nav">
+    <Link
+      to="/dashboard"
+      className="btn btn-primary">Dashboard</Link>
     <Link
       to="/setlists/create"
       className="btn btn-success">Add Setlist</Link>
-  </ul>
+    <button
+      onClick={logout}
+      className="btn btn-danger pull-right">Logout</button>
+  </div>
 );
 
 export default Nav;

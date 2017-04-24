@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import actions from '../../actions';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import axios from 'axios';
+import actions from '../../actions';
 
 import SetlistSongsInputList from './setlist_songs_input_list';
 
-class SetlistSongs extends Component {
+class SetlistSongsEdit extends Component {
   addSongToSetlist = () => this.props.addSongToSetlist(this.props.params.id);
   componentWillMount() {
     const { params: { id }, fetchSetlist } = this.props;
@@ -32,10 +33,15 @@ class SetlistSongs extends Component {
             <SetlistSongsInputList
               songs={songs}/>
           </div>
+          <Link
+            to="/dashboard"
+            className="btn btn-primary">
+            Save
+          </Link>
         </div>
       </div>
     );
   }
 }
 const mapStateToProps = state => ({ setlist: state.setlist });
-export default connect(mapStateToProps, actions)(SetlistSongs);
+export default connect(mapStateToProps, actions)(SetlistSongsEdit);

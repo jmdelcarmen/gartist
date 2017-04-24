@@ -10,8 +10,6 @@ class Dashboard extends Component {
     return (
       <div className="container">
         <h1>Dashboard Here</h1>
-        <Nav
-          logout={() => this.props.logoutUser()}/>
         <Setlists />
       </div>
     );
