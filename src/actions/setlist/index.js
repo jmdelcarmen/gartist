@@ -3,11 +3,40 @@ import {
   FETCH_SETLIST,
   ADD_SETLIST_SONG,
   SAVE_SETLIST_SONG,
-  DELETE_SETLIST_SONG
+  DELETE_SETLIST_SONG,
+  SAVE_SETLIST_SONGS_SORT
 } from './types';
 
 const URL = 'http://localhost:3000'
 
+export function saveSetlistSongsSort(songId, direction) {
+  return (dispatch, getState) => {
+    const { _id, songs } = getState().setlist;
+    const index = songs.findIndex(song => song._id === songId);
+    const newSetlistSongsSort = direction === 'inc'
+      ? [
+        ...songs.slice(0, index - 1),
+        songs[ index ],
+        songs[ index - 1 ],
+        ...songs.slice(index + 1)
+      ]
+      : [
+        ...songs.slice(0, index),
+        songs[ index + 1 ],
+        songs[ index ],
+        ...songs.slice(index + 2)
+      ];
+      axios.post(`${URL}/setlists/${_id}/songs/sort`, { songs: newSetlistSongsSort })
+        .then(
+          response => {
+            dispatch({ type: SAVE_SETLIST_SONGS_SORT, payload: newSetlistSongsSort });
+          },
+          err => {
+            console.log(err);
+          }
+        )
+  }
+}
 export function fetchSetlist(id) {
   return dispatch => {
     axios.get(`${URL}/setlists/${id}`)

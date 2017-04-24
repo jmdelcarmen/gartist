@@ -11,16 +11,54 @@ class SetlistSongsInputList extends Component {
       song: { ...this.props.song }
     }
   }
+  incSongPosition = () => this.props.saveSetlistSongsSort(this.state.song._id, 'inc');
+  decSongPosition = () => this.props.saveSetlistSongsSort(this.state.song._id, 'dec');
   saveSong = () => {
-    const { song, saveSetlistSong, setlistId } = this.props;
+    const { song, saveSetlistSong, setlist } = this.props;
     const updateBody = this.state.song
-    saveSetlistSong(setlistId, song._id, updateBody);
+    saveSetlistSong(setlist._id, song._id, updateBody);
     this.setState({ active: false });
-    browserHistory.push(`/setlists/${setlistId}/view`);
   }
   deleteSong = () => {
-    const { song, deleteSetlistSong, setlistId } = this.props;
-    deleteSetlistSong(setlistId, song._id);
+    const { song, deleteSetlistSong, setlist } = this.props;
+    deleteSetlistSong(setlist._id, song._id);
+  }
+  renderPositionButtons = () => {
+    const songIndex = this.props.setlist.songs.findIndex(song => song._id === this.state.song._id);
+    const songsLength = this.props.setlist.songs.length;
+    switch (songIndex) {
+      case 0:
+        return (
+          <button
+            onClick={this.decSongPosition}
+            className="btn btn-default">
+            Down
+          </button>
+        );
+      case songsLength - 1:
+        return (
+          <button
+            onClick={this.incSongPosition}
+            className="btn btn-default">
+            Up
+          </button>
+        );
+      default:
+        return (
+          <div>
+            <button
+              onClick={this.decSongPosition}
+              className="btn btn-default">
+              Down
+            </button>
+            <button
+              onClick={this.incSongPosition}
+              className="btn btn-default">
+              Up
+            </button>
+          </div>
+        );
+    }
   }
   renderLyricsTextArea = () => {
     return this.state.active
@@ -65,6 +103,7 @@ class SetlistSongsInputList extends Component {
           className="btn btn-primary">
           Save
         </button>
+        {this.renderPositionButtons()}
       </div>
     )
     : <div></div>;
@@ -89,5 +128,5 @@ class SetlistSongsInputList extends Component {
     );
   }
 }
-const mapStateToProps = state => ({ setlistId: state.setlist._id });
+const mapStateToProps = state => ({ setlist: state.setlist });
 export default connect(mapStateToProps, actions)(SetlistSongsInputList);
