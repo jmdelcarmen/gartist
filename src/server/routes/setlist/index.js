@@ -1,12 +1,23 @@
 import { Song, Setlist, Artist } from '../../models';
 
 export default (app) => {
+  app.get('/setlists', viewSetlists);
   app.get('/setlists/:id', viewSetlist);
   app.get('/setlists/:id/songs/create', addSetlistSong);
   app.get('/setlists/:id/songs/:songId/delete', deleteSetlistSong);
   app.post('/setlists/:id/songs/:songId/save', saveSetlistSong);
   app.post('/setlists/create', createSetlist);
   return app;
+}
+function viewSetlists(req, res) {
+  Setlist.find()
+    .populate('songs')
+    .populate('artist')
+    .then(setlists => res.send(setlists))
+    .catch(err => {
+      console.log(err);
+      res.send("An error occurred.")
+    });
 }
 function deleteSetlistSong(req, res) {
   const { id, songId } = req.params;
